@@ -32,7 +32,7 @@ export const Header: React.FC<HeaderProps> = ({
             <div>
               <div className="flex items-center gap-2">
                 <h1 className="text-base sm:text-lg font-black text-white tracking-tight flex items-center gap-1.5">
-                  Brasil <span className="text-emerald-400">TV</span> Aberta
+                  vild<span className="text-emerald-400">Canais</span> abertos
                 </h1>
                 <span className="hidden sm:inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-950/80 text-emerald-400 border border-emerald-800/40">
                   <Radio className="w-2.5 h-2.5 animate-pulse" />

@@ -18,7 +18,7 @@ async function startServer() {
 
   // Health check endpoint
   app.get('/api/health', (req, res) => {
-    res.json({ status: 'ok', service: 'Brasil TV Aberta Proxy' });
+    res.json({ status: 'ok', service: 'vildCanais abertos Proxy' });
   });
 
   // Development vs Production serving
@@ -37,7 +37,7 @@ async function startServer() {
   }
 
   app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Brasil TV Aberta rodando na porta ${PORT}`);
+    console.log(`vildCanais abertos rodando na porta ${PORT}`);
   });
 }
 
