@@ -1,0 +1,6 @@
+{
+  "name": "Brasil TV Aberta",
+  "description": "Aplicativo para assistir canais de TV aberta do Brasil gratuitos na internet, com player integrado, busca inteligente e canais favoritos.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
