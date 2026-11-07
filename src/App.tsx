@@ -26,6 +26,7 @@ import {
   SlidersHorizontal,
   Trash2,
   CheckCircle2,
+  Maximize,
 } from 'lucide-react';
 
 export default function App() {
@@ -160,7 +161,7 @@ export default function App() {
     }
   }, [hasNext, currentIndex, filteredChannels]);
 
-  // Keyboard navigation for channels (Left/Right arrows for zap)
+  // Keyboard navigation for channels and fullscreen
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       // Ignore if user is typing in an input
@@ -171,6 +172,14 @@ export default function App() {
         handlePrevChannel();
       } else if (e.key === 'ArrowRight') {
         handleNextChannel();
+      } else if (e.key === 'f' || e.key === 'F') {
+        const video = document.querySelector('video');
+        const container = video?.closest('div');
+        if (!document.fullscreenElement) {
+          container?.requestFullscreen?.();
+        } else {
+          document.exitFullscreen?.();
+        }
       }
     };
     window.addEventListener('keydown', handleKeyDown);
@@ -214,9 +223,10 @@ export default function App() {
 
         {/* Selected Channel Bar & Quick Info */}
         {selectedChannel && (
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-3.5 bg-neutral-900/60 rounded-xl border border-neutral-800/80">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-3.5 bg-neutral-900/80 rounded-xl border border-neutral-800/80 shadow-md">
             <div className="flex items-center gap-3">
-              <span className="text-xs font-semibold text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800/50">
+              <span className="text-xs font-semibold text-emerald-400 bg-emerald-950/70 px-2.5 py-0.5 rounded-md border border-emerald-800/50 flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                 Transmitindo Agora
               </span>
               <p className="text-xs text-neutral-300">
@@ -225,21 +235,39 @@ export default function App() {
               </p>
             </div>
 
-            <div className="flex items-center gap-2 text-xs text-neutral-400 shrink-0">
+            <div className="flex items-center gap-2 text-xs text-neutral-400 shrink-0 w-full sm:w-auto justify-end">
+              {/* Prominent Tela Cheia Button in Bar */}
+              <button
+                onClick={() => {
+                  const video = document.querySelector('video');
+                  const container = video?.closest('div');
+                  if (!document.fullscreenElement) {
+                    if (container?.requestFullscreen) {
+                      container.requestFullscreen();
+                    } else if (video && (video as any).webkitEnterFullscreen) {
+                      (video as any).webkitEnterFullscreen();
+                    }
+                  } else {
+                    document.exitFullscreen?.();
+                  }
+                }}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600/90 hover:bg-emerald-500 text-white font-bold transition cursor-pointer shadow-md shadow-emerald-950 border border-emerald-500/40"
+                title="Assistir em Tela Cheia (F)"
+              >
+                <Maximize className="w-3.5 h-3.5" />
+                <span>Tela Cheia</span>
+              </button>
+
               {selectedChannel.isCustom && (
                 <button
                   onClick={() => handleDeleteCustomChannel(selectedChannel.id)}
-                  className="flex items-center gap-1 text-red-400 hover:text-red-300 bg-red-950/40 hover:bg-red-950/80 px-2.5 py-1 rounded-lg border border-red-800/50 transition cursor-pointer"
+                  className="flex items-center gap-1 text-red-400 hover:text-red-300 bg-red-950/40 hover:bg-red-950/80 px-2.5 py-1.5 rounded-lg border border-red-800/50 transition cursor-pointer"
                   title="Remover canal personalizado"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
-                  <span>Excluir Canal</span>
+                  <span>Excluir</span>
                 </button>
               )}
-              <span className="hidden sm:inline text-neutral-600">|</span>
-              <span className="hidden sm:inline text-[11px] text-neutral-500">
-                Dica: Use as setas ← → do teclado para trocar de canal
-              </span>
             </div>
           </div>
         )}
